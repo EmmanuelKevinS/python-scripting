@@ -1,0 +1,22 @@
+from bs4  import BeautifulSoup
+import requests
+
+def get_cur(from_currency,to_currency,amt):
+    url=(f'https://www.x-rates.com/calculator/?from={from_currency}&to={to_currency}&amount={amt}')
+    content = requests.get(url).text
+    soup = BeautifulSoup(content,'html.parser')
+    first_cur = soup.find("span",class_="ccOutputTxt").text
+    fc_float=(first_cur)
+    sec_cur = soup.find(class_="ccOutputRslt").text
+    sc_float=(sec_cur)
+    return (fc_float,sc_float)
+
+in_cur = input('what currency would you like to convert from?\n')
+in_cur_upper = in_cur.upper()
+out_cur = input('what currency would you like to convert to?\n')
+out_cur_upper = out_cur.upper()
+amount = float(input('What is the amount you would like to convert?\n'))
+
+    
+    
+print(get_cur(in_cur_upper,out_cur_upper,amount)) 
